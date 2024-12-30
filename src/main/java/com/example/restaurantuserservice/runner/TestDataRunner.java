@@ -1,0 +1,46 @@
+package com.example.restaurantuserservice.runner;
+
+import com.example.restaurantuserservice.domain.Admin;
+import com.example.restaurantuserservice.domain.Client;
+import com.example.restaurantuserservice.domain.Role;
+import com.example.restaurantuserservice.domain.User;
+import com.example.restaurantuserservice.repository.RoleRepo;
+import com.example.restaurantuserservice.repository.UserRepo;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
+@Profile({"default"})
+@Component
+public class TestDataRunner implements CommandLineRunner {
+    private RoleRepo roleRepo;
+    private UserRepo userRepo;
+
+    public TestDataRunner(RoleRepo roleRepo, UserRepo userRepo) {
+        this.roleRepo = roleRepo;
+        this.userRepo = userRepo;
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        Role roleUser = new Role("ROLE_USER", "User role");
+        Role roleAdmin = new Role("ROLE_ADMIN", "Admin role");
+        Role roleManager = new Role("ROLE_MANAGER", "Manager role");
+
+        roleRepo.save(roleAdmin);
+        roleRepo.save(roleManager);
+        roleRepo.save(roleUser);
+
+        User admin = new Admin();
+        admin.setEmail("admin@raf.rs");
+        admin.setUsername("admin");
+        admin.setRole(roleAdmin);
+        admin.setPassword("admin");
+        userRepo.save(admin);
+        User client = new Client();
+        client.setRole(roleUser);
+        client.setUsername("klijent");
+        client.setPassword("sifra");
+        userRepo.save(client);
+    }
+}
