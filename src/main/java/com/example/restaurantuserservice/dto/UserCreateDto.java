@@ -18,6 +18,7 @@ public abstract class UserCreateDto {
     private String lastName;
     @NotBlank
     private String username;
+    @NotBlank
     private String password;
     @NotBlank
     private LocalDate datumRodjenja;

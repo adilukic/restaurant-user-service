@@ -30,15 +30,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserDto> findAll(Pageable pageable) {
+    public Page<ClientDto> findAll(Pageable pageable) {
         return userRepo.findAll(pageable)
                 .map(userMapper::userToUserDto);
     }
 
     @Override
-    public UserDto add(UserCreateDto userCreateDto) {
+    public ClientDto add(ClientCreateDto userCreateDto) {
 
-        User user = userMapper.userCreateDtoToUser(userCreateDto);
+        Client user = userMapper.userCreateDtoToUser(userCreateDto);
         userRepo.save(user);
         return userMapper.userToUserDto(user);
 

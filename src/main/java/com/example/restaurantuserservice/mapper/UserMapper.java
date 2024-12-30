@@ -3,6 +3,7 @@ package com.example.restaurantuserservice.mapper;
 import com.example.restaurantuserservice.domain.Client;
 import com.example.restaurantuserservice.domain.Manager;
 import com.example.restaurantuserservice.domain.User;
+import com.example.restaurantuserservice.dto.ClientCreateDto;
 import com.example.restaurantuserservice.dto.ClientDto;
 import com.example.restaurantuserservice.dto.UserCreateDto;
 import com.example.restaurantuserservice.dto.UserDto;
@@ -16,19 +17,18 @@ public class UserMapper {
     public UserMapper(RoleRepo roleRepo) {
         this.roleRepo = roleRepo;
     }
-    public UserDto userToUserDto(User user) {
-
-
+    public ClientDto userToUserDto(User user) {
             ClientDto userDto = new ClientDto();
             userDto.setId(user.getId());
             userDto.setEmail(user.getEmail());
             userDto.setUsername(user.getUsername());
             userDto.setFirstName(user.getFirstName());
             userDto.setLastName(user.getLastName());
+            userDto.setNumberOfReservation(0);
             return userDto;
         }
-    public User userCreateDtoToUser(UserCreateDto userCreateDto){
-        User user = new Client();
+    public Client userCreateDtoToUser(ClientCreateDto userCreateDto){
+        Client user = new Client();
         user.setEmail(userCreateDto.getEmail());
         user.setUsername(userCreateDto.getUsername());
         user.setFirstName(userCreateDto.getFirstName());
