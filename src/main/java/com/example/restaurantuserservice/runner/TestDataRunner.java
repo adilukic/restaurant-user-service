@@ -42,5 +42,10 @@ public class TestDataRunner implements CommandLineRunner {
         client.setUsername("klijent");
         client.setPassword("sifra");
         userRepo.save(client);
+        User client2 = new Client();
+        client2.setRole(roleUser);
+        client2.setUsername("klijent2");
+        client2.setPassword("sifra2");
+        userRepo.save(client2);
     }
 }

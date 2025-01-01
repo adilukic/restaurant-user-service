@@ -12,8 +12,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -34,6 +37,7 @@ public class UserServiceImpl implements UserService {
         return userRepo.findAll(pageable)
                 .map(userMapper::userToUserDto);
     }
+
 
     @Override
     public ClientDto add(ClientCreateDto userCreateDto) {

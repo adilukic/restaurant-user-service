@@ -10,10 +10,12 @@ import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -26,17 +28,25 @@ public class UserController {
         this.userService = userService;
     }
 
+    @CheckSecurity
+    @GetMapping("/secure-endpoint")
+    public ResponseEntity<String> secureEndpoint(
+            @RequestHeader(value = "Authorization", required = false) String authorization) {
+        return ResponseEntity.ok("Access granted via AOP without Authentication");
+    }
+
     @Operation(summary = "Get all users", description = "Retrieve a paginated list of all users")
     @GetMapping
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER", "ROLE_MANAGER"})
     public ResponseEntity<Page<ClientDto>> getAllUsers(
-            @RequestHeader("Authorization") String authorization,
             @Parameter(description = "Page number", example = "0") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size", example = "10") @RequestParam(defaultValue = "10") int size,
             @Parameter(description = "Sort criteria", example = "name,asc") @RequestParam(defaultValue = "id,asc") String sort,
             Pageable pageable) {
         return new ResponseEntity<>(userService.findAll(pageable), HttpStatus.OK);
     }
+
+
 
     @Operation(summary = "Register client", description = "Register a new client")
     @PostMapping("/register/")
