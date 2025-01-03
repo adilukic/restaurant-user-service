@@ -37,7 +37,7 @@ public class UserController {
 
     @Operation(summary = "Get all users", description = "Retrieve a paginated list of all users")
     @GetMapping
-    @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER", "ROLE_MANAGER"})
+    //@CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER", "ROLE_MANAGER"})
     public ResponseEntity<Page<ClientDto>> getAllUsers(
             @Parameter(description = "Page number", example = "0") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size", example = "10") @RequestParam(defaultValue = "10") int size,
