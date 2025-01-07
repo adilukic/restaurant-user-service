@@ -17,6 +17,7 @@ public class UserMapper {
     public UserMapper(RoleRepo roleRepo) {
         this.roleRepo = roleRepo;
     }
+
     public ClientDto userToUserDto(User user) {
             ClientDto userDto = new ClientDto();
             userDto.setId(user.getId());
@@ -24,9 +25,19 @@ public class UserMapper {
             userDto.setUsername(user.getUsername());
             userDto.setFirstName(user.getFirstName());
             userDto.setLastName(user.getLastName());
-            userDto.setNumberOfReservation(0);
+
             return userDto;
-        }
+    }
+    public ClientDto clientToClientDto(Client client) {
+        ClientDto clientDto = new ClientDto();
+        clientDto.setId(client.getId());
+        clientDto.setEmail(client.getEmail());
+        clientDto.setUsername(client.getUsername());
+        clientDto.setFirstName(client.getFirstName());
+        clientDto.setLastName(client.getLastName());
+        clientDto.setNumberOfReservation(client.getNumberOfReservation());
+        return clientDto;
+    }
     public Client userCreateDtoToUser(ClientCreateDto userCreateDto){
         Client user = new Client();
         user.setEmail(userCreateDto.getEmail());

@@ -38,6 +38,12 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::userToUserDto);
     }
 
+    @Override
+    public ClientDto getUser(Long id) {
+        Client client = (Client) userRepo.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        return userMapper.clientToClientDto(client);
+    }
+
 
     @Override
     public ClientDto add(ClientCreateDto userCreateDto) {
@@ -57,5 +63,15 @@ public class UserServiceImpl implements UserService {
         claims.put("id", user.getId());
         claims.put("role", user.getRole().getName());
         return new TokenResponseDto(tokenService.generate(claims));
+    }
+
+    @Override
+    public ClientDto updateClient(Long id, ClientCreateDto userCreateDto) {
+        Client client = (Client) userRepo.findById(id).orElseThrow(()->new NotFoundException(String.format("Table with id: %d does not exist.", id)));
+//        client = userMapper.userCreateDtoToUser(userCreateDto);
+        client.setNumberOfReservation(userCreateDto.getNumberOfReservation());
+        userRepo.save(client);
+
+        return userMapper.userToUserDto(client);
     }
 }
