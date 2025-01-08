@@ -1,9 +1,6 @@
 package com.example.restaurantuserservice.runner;
 
-import com.example.restaurantuserservice.domain.Admin;
-import com.example.restaurantuserservice.domain.Client;
-import com.example.restaurantuserservice.domain.Role;
-import com.example.restaurantuserservice.domain.User;
+import com.example.restaurantuserservice.domain.*;
 import com.example.restaurantuserservice.repository.RoleRepo;
 import com.example.restaurantuserservice.repository.UserRepo;
 import org.springframework.boot.CommandLineRunner;
@@ -37,10 +34,19 @@ public class TestDataRunner implements CommandLineRunner {
         admin.setRole(roleAdmin);
         admin.setPassword("admin");
         userRepo.save(admin);
-        User client = new Client();
+        Client client = new Client();
         client.setRole(roleUser);
-        client.setUsername("klijent");
-        client.setPassword("sifra");
+        client.setUsername("skit");
+        client.setPassword("skit");
+        client.setEmail("ilibasicnikola10@gmail.com");
+        client.setFirstName("Nikola");
+        client.setLastName("Ilibasic");
+        client.setNumberOfReservation(0);
+        User manager = new Manager();
+        manager.setRole(roleManager);
+        manager.setUsername("manager");
+        manager.setPassword("manager");
+        userRepo.save(manager);
         userRepo.save(client);
         User client2 = new Client();
         client2.setRole(roleUser);

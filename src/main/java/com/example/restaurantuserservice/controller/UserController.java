@@ -39,6 +39,7 @@ public class UserController {
     @GetMapping
     @CheckSecurity(roles = {"ROLE_ADMIN", "ROLE_USER", "ROLE_MANAGER"})
     public ResponseEntity<Page<ClientDto>> getAllUsers(
+            @RequestHeader("Authorization") String authorization,
             @Parameter(description = "Page number", example = "0") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size", example = "10") @RequestParam(defaultValue = "10") int size,
             @Parameter(description = "Sort criteria", example = "name,asc") @RequestParam(defaultValue = "id,asc") String sort,
@@ -46,12 +47,21 @@ public class UserController {
         return new ResponseEntity<>(userService.findAll(pageable), HttpStatus.OK);
     }
 
-
+    @Operation(summary = "Get user by id")
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientDto> getUserById(@PathVariable("id")long id) {
+        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
+    }
 
     @Operation(summary = "Register client", description = "Register a new client")
     @PostMapping("/register/")
     public ResponseEntity<UserDto> saveClient(@RequestBody @Valid ClientCreateDto clientCreateDto) {
         return new ResponseEntity<>(userService.add(clientCreateDto), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ClientDto> updateClient(@PathVariable("id") long id,@RequestBody ClientCreateDto clientCreateDto) {
+        return new ResponseEntity<>(userService.updateClient(id, clientCreateDto), HttpStatus.OK);
     }
 
     @Operation(summary = "Login", description = "Authenticate user and return token")
