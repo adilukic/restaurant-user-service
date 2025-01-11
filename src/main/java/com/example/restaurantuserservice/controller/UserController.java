@@ -60,7 +60,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDto> updateClient(@PathVariable("id") long id,@RequestBody ClientCreateDto clientCreateDto) {
+    @CheckSecurity(roles = {"ROLE_USER", "ROLE_ADMIN"})
+    public ResponseEntity<ClientDto> updateClient(@RequestHeader("Authorization") String authorization,
+                                                  @PathVariable("id") long id,@RequestBody ClientCreateDto clientCreateDto) {
         return new ResponseEntity<>(userService.updateClient(id, clientCreateDto), HttpStatus.OK);
     }
 

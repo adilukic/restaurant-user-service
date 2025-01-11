@@ -75,6 +75,13 @@ public class UserServiceImpl implements UserService {
     public ClientDto updateClient(Long id, ClientCreateDto userCreateDto) {
         Client client = (Client) userRepo.findById(id).orElseThrow(()->new NotFoundException(String.format("Table with id: %d does not exist.", id)));
 //        client = userMapper.userCreateDtoToUser(userCreateDto);
+        client.setUsername(userCreateDto.getUsername());
+        client.setEmail(userCreateDto.getEmail());
+        client.setPassword(userCreateDto.getPassword());
+        client.setLastName(userCreateDto.getLastName());
+        client.setFirstName(userCreateDto.getFirstName());
+        client.setDatumRodjenja(userCreateDto.getDatumRodjenja());
+
         client.setNumberOfReservation(userCreateDto.getNumberOfReservation());
         userRepo.save(client);
 
