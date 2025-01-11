@@ -7,9 +7,11 @@ import com.example.restaurantuserservice.exception.NotFoundException;
 import com.example.restaurantuserservice.mapper.UserMapper;
 import com.example.restaurantuserservice.repository.UserRepo;
 import com.example.restaurantuserservice.security.service.TokenService;
+import com.example.restaurantuserservice.service.NotificationSender;
 import com.example.restaurantuserservice.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,6 +27,8 @@ public class UserServiceImpl implements UserService {
     private TokenService tokenService;
     private UserRepo userRepo;
     private UserMapper userMapper;
+    @Autowired
+    private NotificationSender notificationSender;
 
     public UserServiceImpl(TokenService tokenService, UserRepo userRepo, UserMapper userMapper) {
         this.tokenService = tokenService;
@@ -50,6 +54,8 @@ public class UserServiceImpl implements UserService {
 
         Client user = userMapper.userCreateDtoToUser(userCreateDto);
         userRepo.save(user);
+        NotificationDto notificationDto = new NotificationDto(user.getId(), user.getEmail(), "ACTIVATION_EMAIL");
+        notificationSender.sendNotification(notificationDto);
         return userMapper.userToUserDto(user);
 
     }
