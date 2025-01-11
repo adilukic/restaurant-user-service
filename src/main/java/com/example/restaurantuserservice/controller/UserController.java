@@ -31,7 +31,7 @@ public class UserController {
     @CheckSecurity(roles = "ROLE_ADMIN")
     @GetMapping("/secure-endpoint")
     public ResponseEntity<String> secureEndpoint(
-            @RequestHeader(value = "Authorization", required = false) String authorization) {
+            @RequestHeader(value = "Authorization") String authorization) {
         return ResponseEntity.ok("Access granted via AOP without Authentication");
     }
 
